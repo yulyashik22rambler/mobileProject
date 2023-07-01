@@ -51,7 +51,6 @@ public class FirstTest {
     }
 
     private WebElement waitForElementPresentByXpath(String xpath) {
-
         return waitForElementPresentByXpath(xpath, "Can not find element", 10);
     }
 }
