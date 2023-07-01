@@ -6,7 +6,7 @@ public class MainTest {
     @Test
     public void getLocalNumber() {
         MainClass mainClass = new MainClass();
-        Assert.assertEquals("Result of mainClass.getLocalNumber() should be 14",
+        Assert.assertEquals("Result of mainClass.getLocalNumber() test should be 14",
                 14, mainClass.getLocalNumber());
     }
 
