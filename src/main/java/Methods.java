@@ -44,7 +44,7 @@ public class Methods extends Initial {
         return wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
     }
 
-    protected boolean waitForAllElementAreNotPresent(By by, String errorMessage, long timeInSeconds) {
+    protected boolean waitForElementsAreNotPresent(By by, String errorMessage, long timeInSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, timeInSeconds);
         wait.withMessage(errorMessage + "\n");
         return wait.until(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(by)));
