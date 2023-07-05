@@ -49,6 +49,7 @@ public class Methods extends Initial {
         wait.withMessage(errorMessage + "\n");
         return wait.until(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(by)));
     }
+
     protected WebElement waitForElementAndClear(By by, String errorMessage, long timeInSeconds) {
         WebElement element = waitForElementPresent(by, errorMessage, timeInSeconds);
         element.clear();
@@ -60,5 +61,10 @@ public class Methods extends Initial {
         Assert.assertEquals(errorMessage, expectedText, element.getText());
     }
 
+    protected void assertElementsHaveText(By by, String expectedText, String errorMessage) {
+        List<WebElement> elements = waitForElementsArePresent(by, errorMessage, 15);
+        elements.forEach(element ->
+                Assert.assertTrue(errorMessage, element.getText().contains(expectedText)));
+    }
 
 }
