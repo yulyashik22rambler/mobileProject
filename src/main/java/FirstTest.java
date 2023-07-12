@@ -10,7 +10,7 @@ public class FirstTest extends Methods {
         waitForElementAndClick(By.xpath("//*[@text='Skip']"), "", 10);
         waitForElementAndClick(By.xpath("//*[contains(@text,'Search Wikipedia')]"), "", 10);
         waitForElementAndSendKey(By.xpath("//*[contains(@text,'Search Wikipedia')]"), "Java", "", 15);
-        waitForElementPresent(By.xpath("//*[@class='android.view.ViewGroup']//*[@text='Object-oriented programming language']"), "", 15);
+        waitForElementIsPresent(By.xpath("//*[@class='android.view.ViewGroup']//*[@text='Object-oriented programming language']"), "", 15);
         System.out.println("First run test");
     }
     @Test
@@ -26,11 +26,11 @@ public class FirstTest extends Methods {
         waitForElementAndClick(By.xpath("//*[@text='Skip']"), "", 10);
         waitForElementAndClick(By.xpath("//*[contains(@text,'Search Wikipedia')]"), "", 10);
         waitForElementAndSendKey(By.xpath("//*[contains(@text,'Search Wikipedia')]"), "Java", "", 15);
-        waitForElementPresent(By.xpath("//*[@class='android.view.ViewGroup']//*[@text='Object-oriented programming language']"), "", 15);
+        waitForElementIsPresent(By.xpath("//*[@class='android.view.ViewGroup']//*[@text='Object-oriented programming language']"), "", 15);
         waitForElementAndClick(By.xpath("//*[@class='android.view.ViewGroup']//*[@text='Object-oriented programming language']"), "", 15);
-        WebElement titleElement = waitForElementPresent(By.xpath("//android.view.View[@content-desc='Java (programming language)']"), "Can not find title", 15);
-        String titleAttribute = titleElement.getAttribute("content-desc");
-        Assert.assertEquals("We see unexpected title", "Java (programming language)", titleAttribute);
+        WebElement titleElement = waitForElementIsPresent(By.xpath("//*[@resource-id='pcs']//*[@text='Java']"), "Can not find title", 15);
+        String titleAttribute = titleElement.getText();
+        Assert.assertEquals("We see unexpected title", "Java", titleAttribute);
     }
 
     @Test
