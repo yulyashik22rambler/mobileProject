@@ -2,6 +2,7 @@ import io.appium.java_client.TouchAction;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -16,11 +17,13 @@ public class Methods extends Initial {
         return wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
-    protected void assertElementIsPresent(By by,String expectedText, String errorMessage, long timeInSeconds) {
-        WebElement element = waitForElementIsPresent(by, errorMessage,  timeInSeconds);
+    protected WebElement assertElementIsPresent(By by, String expectedText, String errorMessage, long timeInSeconds) {
+        WebElement element = waitForElementIsPresent(by, errorMessage, timeInSeconds);
         Assert.assertEquals("We see unexpected title", expectedText, element.getText());
+        return element;
 
     }
+
     protected List<WebElement> waitForElementsArePresent(By by, String errorMessage, long timeInSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, timeInSeconds);
         wait.withMessage(errorMessage + "\n");
@@ -104,13 +107,26 @@ public class Methods extends Initial {
         int left_x = element.getLocation().getX();
         int right_x = left_x + element.getSize().getWidth();
         int upper_y = element.getLocation().getY();
-        int low_y = upper_y+element.getLocation().getY();
-        int middle_y = (upper_y+low_y)/2;
+        int low_y = upper_y + element.getLocation().getY();
+        int middle_y = (upper_y + low_y) / 2;
         TouchAction action = new TouchAction(driver);
         action
-                .press(right_x,middle_y)
+                .press(right_x, middle_y)
                 .waitAction(500)
-                .moveTo(left_x,middle_y)
+                .moveTo(left_x, middle_y)
                 .perform();
+    }
+
+
+    protected void rotateScreen() {
+        Dimension size = driver.manage().window().getSize();
+        int width = size.getWidth();
+        int height = size.getHeight();
+
+        if (height > width) {
+            driver.rotate(ScreenOrientation.LANDSCAPE);
+        } else {
+            driver.rotate(ScreenOrientation.PORTRAIT);
+        }
     }
 }
