@@ -113,16 +113,18 @@ public class Methods extends Initial {
         int left_x = element.getLocation().getX();
         int right_x = left_x + element.getSize().getWidth();
         int upper_y = element.getLocation().getY();
-        int low_y = upper_y + element.getLocation().getY();
+        int low_y = upper_y + element.getSize().getHeight();
+
         int middle_y = (upper_y + low_y) / 2;
+
         TouchAction action = new TouchAction(driver);
         action
                 .press(right_x, middle_y)
                 .waitAction(500)
                 .moveTo(left_x, middle_y)
+                .release()
                 .perform();
     }
-
 
     protected void rotateScreen() {
         Dimension size = driver.manage().window().getSize();
@@ -136,7 +138,7 @@ public class Methods extends Initial {
         }
     }
 
-    protected void switchBackGroundMode(int timeInSeconds){
+    protected void switchBackGroundMode(int timeInSeconds) {
         driver.runAppInBackground(timeInSeconds);
     }
 }

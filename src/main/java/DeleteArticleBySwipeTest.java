@@ -3,7 +3,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-public class LongTest extends Methods {
+public class DeleteArticleBySwipeTest extends Methods {
     @Test
     public void articleNavigateTest() {
         waitForElementAndClick(By.xpath("//*[@text='Skip']"), "", 10);
