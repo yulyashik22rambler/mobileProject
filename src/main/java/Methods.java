@@ -21,6 +21,12 @@ public class Methods extends Initial {
         WebElement element = waitForElementIsPresent(by, errorMessage, timeInSeconds);
         Assert.assertEquals("We see unexpected title", expectedText, element.getText());
         return element;
+    }
+
+    protected WebElement assertElementPresent(By by, String expectedText, String errorMessage, long timeInSeconds) {
+        WebElement element = driver.findElement(by);
+        Assert.assertEquals("We see unexpected title", expectedText, element.getText());
+        return element;
 
     }
 
@@ -128,5 +134,9 @@ public class Methods extends Initial {
         } else {
             driver.rotate(ScreenOrientation.PORTRAIT);
         }
+    }
+
+    protected void switchBackGroundMode(int timeInSeconds){
+        driver.runAppInBackground(timeInSeconds);
     }
 }

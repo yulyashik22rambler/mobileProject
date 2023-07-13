@@ -14,7 +14,7 @@ public class Ex6Test extends Methods {
                 "Can not find descriprion", 15);
         waitForElementAndClick(By.xpath("//*[@text='2018 film']"),
                 "Can not find title", 15);
-        assertElementIsPresent(By.xpath("//*[@resource-id='pcs']//*[contains(@text,'a (2018 film)')]"),"Maradona (2018 film)",
+        assertElementPresent(By.xpath("//*[@resource-id='pcs']//*[contains(@text,'a (2018 film)')]"),"Maradona (2018 film)",
                 "Can not find title of article",0);
     }
 }
