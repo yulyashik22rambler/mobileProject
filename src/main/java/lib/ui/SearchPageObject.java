@@ -10,14 +10,19 @@ public class SearchPageObject extends MainPageObject {
     private String backButtonXpath = "//android.widget.ImageButton[@content-desc='Navigate up']";
     private String searchInputXpath = "//*[contains(@resource-id,'org.wikipedia:id/search_src_text')]";
     private String searchResultXpath = "//*[contains(@resource-id,'org.wikipedia:id/page_list_item_title')]";
+    private String searchResultByTitleDescrTmpl = "//*[@class='android.view.ViewGroup'][*[@text='{SUBSTRING_1}']][*[@text='{SUBSTRING_2}']]";
 
     public SearchPageObject(AppiumDriver driver) {
         super(driver);
     }
 
-    /* Template method */
+    /* Template methods */
     private String getResultSearchElement(String substring) {
         return searchResultBySubstringTpl.replace("{SUBSTRING}", substring);
+    }
+
+    private String getResultSearchResultElement(String title, String description) {
+        return searchResultByTitleDescrTmpl.replace("{SUBSTRING_1}", title).replace("{SUBSTRING_2}", description);
     }
     /*  */
 
@@ -41,7 +46,7 @@ public class SearchPageObject extends MainPageObject {
         return this;
     }
 
-    public SearchPageObject typeSearchLine(String searchText) {
+    public SearchPageObject typeSearchLineAndSendKey(String searchText) {
         this.waitForElementAndSendKey(By.xpath(searchFirstInputXpath), searchText,
                 "Can not find element search init", 10);
         return this;
@@ -98,6 +103,12 @@ public class SearchPageObject extends MainPageObject {
 
     public void checkBackButtonIsNotPresent() {
         this.waitForElementNotPresent(By.xpath(backButtonXpath), "Element should not be presented", 10);
+    }
+
+    public SearchPageObject waitForElementByTitleAndDescription(String title, String description) {
+        this.waitForElementIsPresent(By.xpath(getResultSearchResultElement(title, description)),
+                "Can not find Search result by title and description", 15);
+        return this;
     }
 
 }
