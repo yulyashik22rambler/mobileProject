@@ -11,7 +11,7 @@ public class Ex5DeleteSavedSecondArticleTest extends CoreTestCase {
         SearchPageObject searchPageObject = new SearchPageObject(driver);
         searchPageObject.clickSkipButton()
                 .initSearchInput()
-                .typeSearchLine("Java")
+                .typeSearchLineAndSendKey("Java")
                 .clickByArticleBySubstring("Object-oriented programming language");
         ArticlePageObject articlePageObject1 = new ArticlePageObject(driver);
         String articleTitle = articlePageObject1.getArticleTitle("Java");
@@ -22,7 +22,7 @@ public class Ex5DeleteSavedSecondArticleTest extends CoreTestCase {
         SearchPageObject searchPageObject2 = new SearchPageObject(driver);
         searchPageObject2
                 .initSearchInput()
-                .typeSearchLine("Kotlin")
+                .typeSearchLineAndSendKey("Kotlin")
                 .clickByArticleBySubstring("General-purpose programming language derived from Java");
         ArticlePageObject articlePageObject2 = new ArticlePageObject(driver);
         String articleTitle2 = articlePageObject2.getArticleTitle("Kotlin");

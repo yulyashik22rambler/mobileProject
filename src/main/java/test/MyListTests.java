@@ -13,7 +13,7 @@ public class MyListTests extends CoreTestCase {
         SearchPageObject searchPageObject = new SearchPageObject(driver);
         searchPageObject.clickSkipButton()
                 .initSearchInput()
-                .typeSearchLine("Java")
+                .typeSearchLineAndSendKey("Java")
                 .clickByArticleBySubstring("Object-oriented programming language");
         ArticlePageObject articlePageObject = new ArticlePageObject(driver);
         String articleTitle = articlePageObject.getArticleTitle("Java");

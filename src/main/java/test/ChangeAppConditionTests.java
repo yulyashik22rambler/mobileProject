@@ -12,7 +12,7 @@ public class ChangeAppConditionTests extends CoreTestCase {
         SearchPageObject searchPageObject = new SearchPageObject(driver);
         searchPageObject.clickSkipButton()
                 .initSearchInput()
-                .typeSearchLine("Java")
+                .typeSearchLineAndSendKey("Java")
                 .clickByArticleBySubstring("Object-oriented programming language");
         ArticlePageObject articlePageObject = new ArticlePageObject(driver);
         String articleTitle = articlePageObject.getArticleTitle("Java");
@@ -30,7 +30,7 @@ public class ChangeAppConditionTests extends CoreTestCase {
         searchPageObject
                 .clickSkipButton()
                 .initSearchInput()
-                .typeSearchLine("Maradona")
+                .typeSearchLineAndSendKey("Maradona")
                 .clickByArticleBySubstring("2018 film");
         ArticlePageObject articlePageObject1 = new ArticlePageObject(driver);
         String articleTitle1 = articlePageObject1.getArticleTitle("2018 film");

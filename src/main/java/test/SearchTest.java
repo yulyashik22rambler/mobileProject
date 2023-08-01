@@ -11,7 +11,7 @@ public class SearchTest extends CoreTestCase {
         SearchPageObject searchPageObject = new SearchPageObject(driver);
         searchPageObject.clickSkipButton()
                 .initSearchInput()
-                .typeSearchLine("Java")
+                .typeSearchLineAndSendKey("Java")
                 .waitForSearchResult("Object-oriented programming language");
     }
 
@@ -30,7 +30,7 @@ public class SearchTest extends CoreTestCase {
         SearchPageObject searchPageObject = new SearchPageObject(driver);
         searchPageObject.clickSkipButton()
                 .initSearchInput()
-                .typeSearchLine("Java")
+                .typeSearchLineAndSendKey("Java")
                 .clearSearchInput()
                 .clickBackButton()
                 .checkBackButtonIsNotPresent();

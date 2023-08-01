@@ -11,7 +11,7 @@ public class ArticleTests extends CoreTestCase {
         SearchPageObject searchPageObject = new SearchPageObject(driver);
         searchPageObject.clickSkipButton()
                 .initSearchInput()
-                .typeSearchLine("Java")
+                .typeSearchLineAndSendKey("Java")
                 .clickByArticleBySubstring("Object-oriented programming language");
         ArticlePageObject articlePageObject = new ArticlePageObject(driver);
         String articleTitle = articlePageObject.getArticleTitle("Java");
@@ -23,7 +23,7 @@ public class ArticleTests extends CoreTestCase {
         SearchPageObject searchPageObject = new SearchPageObject(driver);
         searchPageObject.clickSkipButton()
                 .initSearchInput()
-                .typeSearchLine("Java")
+                .typeSearchLineAndSendKey("Java")
                 .clickByArticleBySubstring("Object-oriented programming language");
         ArticlePageObject articlePageObject1 = new ArticlePageObject(driver);
         String articleTitle = articlePageObject1.getArticleTitle("Java");
@@ -39,7 +39,7 @@ public class ArticleTests extends CoreTestCase {
         SearchPageObject searchPageObject = new SearchPageObject(driver);
         searchPageObject.clickSkipButton()
                 .initSearchInput()
-                .typeSearchLine("Appium")
+                .typeSearchLineAndSendKey("Appium")
                 .clickByArticleBySubstring("Automation for Apps");
         ArticlePageObject articlePageObject = new ArticlePageObject(driver);
         String articleTitle = articlePageObject.getArticleTitle("Appium");

@@ -8,7 +8,7 @@ public class Ex3Test extends CoreTestCase {
         SearchPageObject searchPageObject = new SearchPageObject(driver);
         searchPageObject.clickSkipButton()
                 .initSearchInput()
-                .typeSearchLine("Java")
+                .typeSearchLineAndSendKey("Java")
                 .checkElementsOfSearchResultArePresent()
                 .clearSearchInput()
                 .checkNoElementsOfSearchResult();

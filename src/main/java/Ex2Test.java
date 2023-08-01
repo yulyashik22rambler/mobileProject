@@ -8,7 +8,7 @@ public class Ex2Test extends CoreTestCase {
         SearchPageObject searchPageObject = new SearchPageObject(driver);
         searchPageObject.clickSkipButton()
                 .initSearchInput()
-                .typeSearchLine("Search smth")
+                .typeSearchLineAndSendKey("Search smth")
                 .assertSearchInputHasText("Search smth");
     }
 }

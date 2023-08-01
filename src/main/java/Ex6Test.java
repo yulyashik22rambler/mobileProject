@@ -10,7 +10,7 @@ public class Ex6Test extends CoreTestCase {
         searchPageObject
                 .clickSkipButton()
                 .initSearchInput()
-                .typeSearchLine("Maradona")
+                .typeSearchLineAndSendKey("Maradona")
                 .clickByArticleBySubstring("2018 film");
         ArticlePageObject articlePageObject1 = new ArticlePageObject(driver);
         String articleTitle1 = articlePageObject1.getArticleTitle("2018 film");
