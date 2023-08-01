@@ -1,13 +1,14 @@
+import lib.CoreTestCase;
+import lib.ui.SearchPageObject;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
-public class Ex2Test extends Methods {
+public class Ex2Test extends CoreTestCase {
     @Test
-    public void searchFieldContainsTextTest() {
-        waitForElementAndClick(By.xpath("//*[@text='Skip']"), "", 10);
-        waitForElementAndClick(By.xpath("//*[contains(@text,'Search Wikipedia')]"), "Can not find field", 10);
-        waitForElementAndSendKey(By.xpath("//*[contains(@text,'Search Wikipedia')]"), "Search smth", "", 15);
-        assertElementHasText(By.xpath("//*[contains(@resource-id,'org.wikipedia:id/search_src_text')]"), "Search smth",
-                "Attribute 'text' does not contains expected value");
+    public void testSearchFieldContainsTextTest() {
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        searchPageObject.clickSkipButton()
+                .initSearchInput()
+                .typeSearchLine("Search smth")
+                .assertSearchInputHasText("Search smth");
     }
 }

@@ -1,20 +1,19 @@
-import org.junit.Assert;
+import lib.CoreTestCase;
+import lib.ui.ArticlePageObject;
+import lib.ui.SearchPageObject;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
-public class Ex6Test extends Methods {
+public class Ex6Test extends CoreTestCase {
     @Test
-    public void checkArticleTitleTest() {
-        waitForElementAndClick(By.xpath("//*[@text='Skip']"), "", 10);
-        waitForElementAndClick(By.xpath("//*[contains(@text,'Search Wikipedia')]"), "", 10);
-        waitForElementAndSendKey(By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-                "Maradona", "", 15);
-        waitForElementIsPresent(By.xpath("//*[@text='2018 film']"),
-                "Can not find descriprion", 15);
-        waitForElementAndClick(By.xpath("//*[@text='2018 film']"),
-                "Can not find title", 15);
-        assertElementPresent(By.xpath("//*[@resource-id='pcs']//*[contains(@text,'a (2018 film)')]"),"Maradona (2018 film)",
-                "Can not find title of article",0);
+    public void testCheckArticleTitleTest() {
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        searchPageObject
+                .clickSkipButton()
+                .initSearchInput()
+                .typeSearchLine("Maradona")
+                .clickByArticleBySubstring("2018 film");
+        ArticlePageObject articlePageObject1 = new ArticlePageObject(driver);
+        String articleTitle1 = articlePageObject1.getArticleTitle("2018 film");
+        assertEquals("We see unexpected title", "Maradona (2018 film)", articleTitle1);
     }
 }
