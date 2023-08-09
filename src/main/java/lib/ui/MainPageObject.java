@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class MainPageObject {
     public AppiumDriver driver;
@@ -133,4 +134,17 @@ public class MainPageObject {
                 .perform();
     }
 
+    private By getLocatorByString(String locatorWithType) {
+        String[] explodedLocator = locatorWithType.split(Pattern.quote(":"), 2);
+        String byType = explodedLocator[0];
+        String locator = explodedLocator[1];
+        if (byType.equals("xpath")) {
+            return By.xpath(locator);
+        } else if (byType.equals("id")) {
+            return By.id(locator);
+        } else {
+            throw new IllegalArgumentException("Can not get type of locator "+locatorWithType);
+        }
+
+    }
 }
