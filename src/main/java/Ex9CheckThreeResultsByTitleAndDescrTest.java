@@ -1,12 +1,13 @@
 import lib.CoreTestCase;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
-public class Ex9CheckResultsByTitleAndDescrTest extends CoreTestCase {
+public class Ex9CheckThreeResultsByTitleAndDescrTest extends CoreTestCase {
     @Test
     public void testSearchAndCheckThreeResultsByTitleDescriptionTest() {
 
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
                 .clickSkipButton()
                 .initSearchInput()

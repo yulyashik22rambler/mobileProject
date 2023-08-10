@@ -2,13 +2,14 @@ package test;
 
 import lib.CoreTestCase;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class SearchTest extends CoreTestCase {
 
     @Test
     public void testSearch() {
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.clickSkipButton()
                 .initSearchInput()
                 .typeSearchLineAndSendKey("Java")
@@ -17,7 +18,7 @@ public class SearchTest extends CoreTestCase {
 
     @Test
     public void testCancelSearchTest() {
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.clickSkipButton()
                 .initSearchInput()
                 .waitForCancelButtonAppear()
@@ -27,7 +28,7 @@ public class SearchTest extends CoreTestCase {
 
     @Test
     public void testPutTextAndClearTest() {
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.clickSkipButton()
                 .initSearchInput()
                 .typeSearchLineAndSendKey("Java")

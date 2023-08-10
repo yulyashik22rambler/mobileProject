@@ -3,29 +3,31 @@ package test;
 import lib.CoreTestCase;
 import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.ArticlePageObjectFactory;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class ArticleTests extends CoreTestCase {
     @Test
     public void testCompareArticleTitleTest() {
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.clickSkipButton()
                 .initSearchInput()
                 .typeSearchLineAndSendKey("Java")
                 .clickByArticleBySubstring("Object-oriented programming language");
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject articlePageObject =  ArticlePageObjectFactory.get(driver);;
         String articleTitle = articlePageObject.getArticleTitle("Java");
         assertEquals("We see unexpected title", "Java (programming language)", articleTitle);
     }
 
     @Test
     public void testSwipeJavaArticleTest() {
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.clickSkipButton()
                 .initSearchInput()
                 .typeSearchLineAndSendKey("Java")
                 .clickByArticleBySubstring("Object-oriented programming language");
-        ArticlePageObject articlePageObject1 = new ArticlePageObject(driver);
+        ArticlePageObject articlePageObject1 =  ArticlePageObjectFactory.get(driver);;
         String articleTitle = articlePageObject1.getArticleTitle("Java");
         assertEquals("We see unexpected title", "Java (programming language)", articleTitle);
         articlePageObject1.swipe()
@@ -36,14 +38,14 @@ public class ArticleTests extends CoreTestCase {
     }
     @Test
     public void testSwipeTillFooterTest() {
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.clickSkipButton()
                 .initSearchInput()
-                .typeSearchLineAndSendKey("Appium")
-                .clickByArticleBySubstring("Automation for Apps");
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
-        String articleTitle = articlePageObject.getArticleTitle("Appium");
-        assertEquals("We see unexpected title", "Appium", articleTitle);
+                .typeSearchLineAndSendKey("Java")
+                .clickByArticleBySubstring("Object-oriented programming language");
+        ArticlePageObject articlePageObject =  ArticlePageObjectFactory.get(driver);;
+        String articleTitle = articlePageObject.getArticleTitle("Java");
+        assertEquals("We see unexpected title", "Java (programming language)", articleTitle);
         articlePageObject.swipeTillFooter();
     }
 

@@ -1,12 +1,13 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
+import lib.ui.factories.ArticlePageObjectFactory;
 import org.junit.Assert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-public class SavedListPageObject extends MainPageObject {
-    private String searchResultBySubstringTpl = "//*[contains(@text,'{SUBSTRING}')]";
+abstract public class SavedListPageObject extends MainPageObject {
+    protected static String searchResultBySubstringTpl, articleDescr;
 
     public SavedListPageObject(AppiumDriver driver) {
         super(driver);
@@ -19,21 +20,24 @@ public class SavedListPageObject extends MainPageObject {
 
     /*  */
     public void swipeToLeft(String articleTitle) {
-        this.waitForElementIsPresent(By.xpath(getResultSearchElement(articleTitle)), "", 10);
-        this.swipeElementToLeft(By.xpath(getResultSearchElement(articleTitle)), "");
+        this.waitForElementIsPresent(getResultSearchElement(articleTitle), "", 10);
+        this.swipeElementToLeft(getResultSearchElement(articleTitle), "");
+        if (Platform.getInstance().isIOS()) {
+            this.clickElementToTheRightUpperCorner(getResultSearchElement(articleTitle),"Cannot find by article title");
+        }
     }
 
     public void checkSavedArticlesCount(String resultString) {
-        WebElement result = this.waitForElementIsPresent(By.xpath("//*[@resource-id='org.wikipedia:id/item_reading_list_statistical_description']"), "", 15);
+        WebElement result = this.waitForElementIsPresent(articleDescr, "", 15);
         Assert.assertTrue("We see unexpected title", result.getText().contains(resultString));
     }
 
     public void checkSavedArticleTitleIsPresent(String articleTitle) {
-        this.waitForElementIsPresent(By.xpath(getResultSearchElement(articleTitle)), "Can not find by title:" + articleTitle, 10);
+        this.waitForElementIsPresent(getResultSearchElement(articleTitle), "Can not find by title:" + articleTitle, 10);
     }
 
     public ArticlePageObject goToArticlePageClickByTitle(String articleTitle) {
-        this.waitForElementAndClick(By.xpath(getResultSearchElement(articleTitle)), "", 10);
-        return new ArticlePageObject(driver);
+        this.waitForElementAndClick(getResultSearchElement(articleTitle), "", 10);
+        return ArticlePageObjectFactory.get(driver);
     }
 }
