@@ -1,16 +1,19 @@
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
+import lib.Platform;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class NavigationUi extends MainPageObject {
-    protected static String viewList;
+    protected static String openNavigation, viewList;
 
-    public NavigationUi(AppiumDriver driver) {
+    public NavigationUi(RemoteWebDriver driver) {
         super(driver);
     }
 
-    public void goToSavedList() {
-        this.waitForElementAndClick(viewList, "Can not find View list", 10);
+    public void clickMyList() {
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isIos()) {
+            this.tryClickElementWithFewAttempts(viewList, "Can not find View list", 10);
+        }
     }
 
     public void openNavigation() {
