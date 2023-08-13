@@ -1,7 +1,7 @@
 package lib.ui.android;
 
-import io.appium.java_client.AppiumDriver;
 import lib.ui.SavedListPageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class AndroidSavedListPageObject extends SavedListPageObject {
     static {
@@ -9,7 +9,7 @@ public class AndroidSavedListPageObject extends SavedListPageObject {
         articleDescr = "xpath://*[@resource-id='org.wikipedia:id/item_reading_list_statistical_description']";
     }
 
-    public AndroidSavedListPageObject(AppiumDriver driver) {
+    public AndroidSavedListPageObject(RemoteWebDriver driver) {
         super(driver);
     }
 }
