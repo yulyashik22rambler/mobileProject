@@ -10,7 +10,8 @@ public class SearchTest extends CoreTestCase {
     @Test
     public void testSearch() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
-        searchPageObject.clickSkipButton()
+        searchPageObject
+                .clickSkipButton()
                 .initSearchInput()
                 .typeSearchLineAndSendKey("Java")
                 .waitForSearchResult("Object-oriented programming language");
@@ -19,7 +20,8 @@ public class SearchTest extends CoreTestCase {
     @Test
     public void testCancelSearchTest() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
-        searchPageObject.clickSkipButton()
+        searchPageObject
+                .clickSkipButton()
                 .initSearchInput()
                 .waitForCancelButtonAppear()
                 .clickBackButton()

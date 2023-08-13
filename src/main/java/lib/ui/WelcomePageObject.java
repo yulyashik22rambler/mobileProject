@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class WelcomePageObject extends MainPageObject {
 
@@ -11,7 +12,7 @@ public class WelcomePageObject extends MainPageObject {
     private static String nextButton = "id:Next";
     private static String getStartedButton = "id:Get started";
 
-    public WelcomePageObject(AppiumDriver driver) {
+    public WelcomePageObject(RemoteWebDriver driver) {
         super(driver);
     }
 
