@@ -1,13 +1,14 @@
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
 import lib.Platform;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class ArticlePageObject extends MainPageObject {
-    protected static String titleArticleTpl, footer, saveButton, viewListButton, saved, moveToAnotherSavedList;
+    protected static String titleArticleTpl, footer, saveButton, viewListButton, saved, moveToAnotherSavedList,
+            removeFromMySaveList;
 
-    public ArticlePageObject(AppiumDriver driver) {
+    public ArticlePageObject(RemoteWebDriver driver) {
         super(driver);
     }
 
@@ -19,7 +20,7 @@ abstract public class ArticlePageObject extends MainPageObject {
 
     public String getArticleTitle(String title) {
         WebElement titleElement = this.waitForElementIsPresent(getElementXpath(title), "Can not find title", 60);
-        if (Platform.getInstance().isAndroid()) {
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isMw()) {
             return titleElement.getText();
         } else {
             return titleElement.getAttribute("name");
@@ -29,8 +30,10 @@ abstract public class ArticlePageObject extends MainPageObject {
     public ArticlePageObject swipeTillFooter() {
         if (Platform.getInstance().isAndroid()) {
             this.swipeUpFindElement(footer, "Swipe till element footer", 50);
-        } else {
+        } else if (Platform.getInstance().isIos()) {
             this.swipeUpFindElementAppear(footer, "Swipe till element footer", 50);
+        } else {
+            this.scrollWebPageTillElementNotVisible(footer, "Swipe till element footer", 100);
         }
         return this;
     }
@@ -49,6 +52,23 @@ abstract public class ArticlePageObject extends MainPageObject {
     }
 
     public void addArticleToMySaved() {
-        this.waitForElementAndClick(saved, "Can not find and click on " + saved, 10);
+        this.waitForElementAndClick(saved, "Can not find and click on saved", 10);
+    }
+
+    public void clickOnSaveButton() {
+        this.removeArticleFromSavedIfItAdded();
+        this.waitForElementAndClick(saveButton, "Can not find and click on saved", 10);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void removeArticleFromSavedIfItAdded() {
+        if (isElementPresent(removeFromMySaveList)) {
+            this.waitForElementAndClick(removeFromMySaveList, "Can not find and click on removeFromMySaveList", 10);
+            this.waitForElementIsPresent(saveButton, "Can not find save button", 10);
+        }
     }
 }
