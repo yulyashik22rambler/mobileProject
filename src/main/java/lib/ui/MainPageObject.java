@@ -6,7 +6,9 @@ import lib.Platform;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -14,9 +16,9 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class MainPageObject {
-    public AppiumDriver driver;
+    public RemoteWebDriver driver;
 
-    public MainPageObject(AppiumDriver driver) {
+    public MainPageObject(RemoteWebDriver driver) {
         this.driver = driver;
     }
 
@@ -99,12 +101,16 @@ public class MainPageObject {
     }
 
     public void swipeUp(int timeoutOfSwipe) {
-        TouchAction action = new TouchAction(driver);
-        Dimension size = driver.manage().window().getSize();
-        int x = size.width / 2;
-        int y_start = (int) (size.height * 0.8);
-        int y_end = (int) (size.height * 0.2);
-        action.press(x, y_start).waitAction(timeoutOfSwipe).moveTo(x, y_end).release().perform();
+        if (driver instanceof AppiumDriver) {
+            TouchAction action = new TouchAction((AppiumDriver) driver);
+            Dimension size = driver.manage().window().getSize();
+            int x = size.width / 2;
+            int y_start = (int) (size.height * 0.8);
+            int y_end = (int) (size.height * 0.2);
+            action.press(x, y_start).waitAction(timeoutOfSwipe).moveTo(x, y_end).release().perform();
+        } else {
+            System.out.println("Method rotatePortray does nothing for platform " + Platform.getInstance().getPlatformVar());
+        }
     }
 
     public void swipeUpQuick() {
@@ -133,17 +139,21 @@ public class MainPageObject {
 
         int middle_y = (upper_y + low_y) / 2;
 
-        TouchAction action = new TouchAction(driver);
-        action.press(right_x, middle_y);
-        action.waitAction(500);
-        if (Platform.getInstance().isAndroid()) {
-            action.moveTo(left_x, middle_y);
+        if (driver instanceof AppiumDriver) {
+            TouchAction action = new TouchAction((AppiumDriver) driver);
+            action.press(right_x, middle_y);
+            action.waitAction(500);
+            if (Platform.getInstance().isAndroid()) {
+                action.moveTo(left_x, middle_y);
+            } else {
+                int offsetX = (-1 * element.getSize().getWidth());
+                action.moveTo(offsetX, 0);
+            }
+            action.release();
+            action.perform();
         } else {
-            int offsetX = (-1 * element.getSize().getWidth());
-            action.moveTo(offsetX, 0);
+            System.out.println("Method rotatePortray does nothing for platform " + Platform.getInstance().getPlatformVar());
         }
-        action.release();
-        action.perform();
     }
 
     private By getLocatorByString(String locatorWithType) {
@@ -162,6 +172,11 @@ public class MainPageObject {
     public boolean isElementLocatedOnTheScreen(String locator) {
         int elementLocationByY = this.waitForElementIsPresent(locator, "Cannot find element" + locator, 10)
                 .getLocation().getY();
+        if (Platform.getInstance().isMw()) {
+            JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
+            Object jsResult = javascriptExecutor.executeScript("return pageYOffset");
+            elementLocationByY -= Integer.parseInt(jsResult.toString());
+        }
         int screenSizeByY = driver.manage().window().getSize().getHeight();
         return elementLocationByY < screenSizeByY;
     }
@@ -179,7 +194,7 @@ public class MainPageObject {
     }
 
     public void clickElementToTheRightUpperCorner(String locator, String errorMessage) {
-        WebElement element = this.waitForElementIsPresent(locator +"/..", errorMessage, 20);
+        WebElement element = this.waitForElementIsPresent(locator + "/..", errorMessage, 20);
         int rightX = element.getLocation().getX();
         int upperY = element.getLocation().getY();
         int lowY = upperY + element.getSize().getHeight();
@@ -187,8 +202,69 @@ public class MainPageObject {
         int width = element.getSize().getWidth();
         int pointToClickX = rightX + width - 3;
         int pointToClickY = middleY;
-        TouchAction touchAction = new TouchAction(driver);
-        touchAction.tap(pointToClickX,pointToClickY).perform();
+        if (driver instanceof AppiumDriver) {
+            TouchAction touchAction = new TouchAction((AppiumDriver) driver);
+            touchAction.tap(pointToClickX, pointToClickY).perform();
+        } else {
+            System.out.println("Method rotatePortray does nothing for platform " + Platform.getInstance().getPlatformVar());
+        }
     }
 
+    public void scrollPageUp() {
+        if (Platform.getInstance().isMw()) {
+            JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
+            javascriptExecutor.executeScript("window.scrollBy(0, 250)");
+        } else {
+            System.out.println("Method scrollPageUp does nothing for platform " + Platform.getInstance().getPlatformVar());
+        }
+    }
+
+    public void scrollWebPageTillElementNotVisible(String locator, String errorMessage, int maxSwipe) {
+        int alreadySwiped = 0;
+        WebElement element = this.waitForElementIsPresent(locator, errorMessage, 10);
+        while (!this.isElementLocatedOnTheScreen(locator)) {
+            scrollPageUp();
+            ++alreadySwiped;
+            if (alreadySwiped > maxSwipe) {
+                Assert.assertTrue(errorMessage, element.isDisplayed());
+            }
+        }
+    }
+
+    public boolean isElementPresent(String locator) {
+        return getAmountOfElements(locator) > 0;
+    }
+
+    private int getAmountOfElements(String locator) {
+        By by = this.getLocatorByString(locator);
+        List<WebElement> elements = driver.findElements(by);
+        return elements.size();
+    }
+    public void sleep() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void tryClickElementWithFewAttempts(String locator,String errorMessage,int msxAttempt){
+        int currentAttempt =0;
+        boolean isNeedMoreAttempt=true;
+        while (isNeedMoreAttempt){
+            try {
+                this.waitForElementAndClick(locator,errorMessage,10);
+                isNeedMoreAttempt=false;
+            }catch (Exception exception){
+                System.out.println("Attempt number " + currentAttempt);
+                if (currentAttempt>currentAttempt)
+                {
+                    this.waitForElementAndClick(locator,errorMessage,10);
+                }
+            }
+            ++currentAttempt;
+
+        }
+    }
 }
+

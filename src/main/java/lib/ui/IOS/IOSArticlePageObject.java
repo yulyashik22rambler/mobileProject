@@ -1,7 +1,7 @@
 package lib.ui.IOS;
 
-import io.appium.java_client.AppiumDriver;
 import lib.ui.ArticlePageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class IOSArticlePageObject extends ArticlePageObject {
     static {
@@ -13,7 +13,7 @@ public class IOSArticlePageObject extends ArticlePageObject {
         moveToAnotherSavedList = "xpath://*[contains(@text,'Move from Saved to another reading list')]";
     }
 
-    public IOSArticlePageObject(AppiumDriver driver) {
+    public IOSArticlePageObject(RemoteWebDriver driver) {
         super(driver);
     }
 }
