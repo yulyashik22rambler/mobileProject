@@ -6,18 +6,20 @@ import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class CoreTestCase extends TestCase {
 
-    protected AppiumDriver driver;
+    protected RemoteWebDriver driver;
 
 
     @Before
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        driver =  Platform.getInstance().getDriver();
+        driver = Platform.getInstance().getDriver();
         rotatePortray();
+        this.openWikiWebPageForMobileWeb();
     }
 
     @After
@@ -28,24 +30,46 @@ public class CoreTestCase extends TestCase {
     }
 
     public void rotateScreen() {
-        Dimension size = driver.manage().window().getSize();
-        int width = size.getWidth();
-        int height = size.getHeight();
+        if (driver instanceof AppiumDriver) {
+            AppiumDriver driver = (AppiumDriver) this.driver;
+            Dimension size = driver.manage().window().getSize();
+            int width = size.getWidth();
+            int height = size.getHeight();
 
-        if (height > width) {
-            driver.rotate(ScreenOrientation.LANDSCAPE);
+            if (height > width) {
+                driver.rotate(ScreenOrientation.LANDSCAPE);
+            } else {
+                driver.rotate(ScreenOrientation.PORTRAIT);
+            }
         } else {
-            driver.rotate(ScreenOrientation.PORTRAIT);
+            System.out.println("Method rotatePortray does nothing for platform " + Platform.getInstance().getPlatformVar());
         }
     }
 
     public void rotatePortray() {
-        driver.rotate(ScreenOrientation.PORTRAIT);
+        if (driver instanceof AppiumDriver) {
+            AppiumDriver driver = (AppiumDriver) this.driver;
+            driver.rotate(ScreenOrientation.PORTRAIT);
+        } else {
+            System.out.println("Method rotatePortray does nothing for platform " + Platform.getInstance().getPlatformVar());
+        }
     }
 
     public void switchBackGroundMode(int timeInSeconds) {
-        driver.runAppInBackground(timeInSeconds);
+        if (driver instanceof AppiumDriver) {
+            AppiumDriver driver = (AppiumDriver) this.driver;
+            driver.runAppInBackground(timeInSeconds);
+        } else {
+            System.out.println("Method rotatePortray does nothing for platform " + Platform.getInstance().getPlatformVar());
+        }
     }
-
+public void  openWikiWebPageForMobileWeb(){
+        if (Platform.getInstance().isMw()){
+            driver.get("https://en.m.wikipedia.org");
+            driver.manage().window().setSize(new Dimension(340,640));
+        }else {
+            System.out.println("Method 'openWikiWebPageForMobileWeb' does nothing for platform " + Platform.getInstance().getPlatformVar());
+        }
+}
 
 }

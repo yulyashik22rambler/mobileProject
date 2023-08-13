@@ -35,9 +35,9 @@ public class Ex5DeleteSavedSecondArticleTest extends CoreTestCase {
 
         //2. Удаляет одну из статей
         NavigationUi navigationUi = NavigationUiFactory.get(driver);
-        navigationUi.goToSavedList();
+        navigationUi.clickMyList();
         SavedListPageObject savedListPageObject =  SavedListPageObjectFactory.get(driver);
-        savedListPageObject.swipeToLeft("Java (programming language)");
+        savedListPageObject.removeBySwipeToLeftOrClick("Java (programming language)");
 
         //3. Убеждается, что вторая осталась
         savedListPageObject.checkSavedArticleTitleIsPresent("Kotlin (programming language)");
