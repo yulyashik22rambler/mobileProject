@@ -1,11 +1,11 @@
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class SearchPageObject extends MainPageObject {
-    protected static String searchFirstInput, searchResultBySubstringTpl, skipButton, backButton, searchInput, searchResult, searchResultByTitleDescrTmpl;
+    protected static String skipOrLoopButton, searchFirstInput, searchInput, searchResultBySubstringTpl, backButton, searchResult, searchResultByTitleDescrTmpl;
 
-    public SearchPageObject(AppiumDriver driver) {
+    public SearchPageObject(RemoteWebDriver driver) {
         super(driver);
     }
 
@@ -20,7 +20,7 @@ public class SearchPageObject extends MainPageObject {
     /*  */
 
     public SearchPageObject clickSkipButton() {
-        this.waitForElementAndClick(skipButton, "Can not find Skip button", 10);
+        this.waitForElementAndClick(skipOrLoopButton, "Can not find Skip button", 10);
         return this;
     }
 

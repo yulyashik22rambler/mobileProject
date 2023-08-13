@@ -1,15 +1,15 @@
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
 import lib.Platform;
 import lib.ui.factories.ArticlePageObjectFactory;
 import org.junit.Assert;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class SavedListPageObject extends MainPageObject {
     protected static String searchResultBySubstringTpl, articleDescr;
 
-    public SavedListPageObject(AppiumDriver driver) {
+    public SavedListPageObject(RemoteWebDriver driver) {
         super(driver);
     }
 
@@ -19,15 +19,25 @@ abstract public class SavedListPageObject extends MainPageObject {
     }
 
     /*  */
-    public void swipeToLeft(String articleTitle) {
-        this.waitForElementIsPresent(getResultSearchElement(articleTitle), "", 10);
-        this.swipeElementToLeft(getResultSearchElement(articleTitle), "");
-        if (Platform.getInstance().isIOS()) {
-            this.clickElementToTheRightUpperCorner(getResultSearchElement(articleTitle),"Cannot find by article title");
+    public void removeBySwipeToLeftOrClick(String articleTitle) {
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isIos()) {
+            this.waitForElementIsPresent(getResultSearchElement(articleTitle), "Cannot find by article title", 10);
+            this.swipeElementToLeft(getResultSearchElement(articleTitle), "Cannot find by article title");
+        } else {
+            this.tryClickElementWithFewAttempts(getResultSearchElement(articleTitle), "Cannot find by article title", 10);
         }
+        if (Platform.getInstance().isIos()) {
+            this.clickElementToTheRightUpperCorner(getResultSearchElement(articleTitle), "Cannot find by article title");
+        }
+
     }
 
     public void checkSavedArticlesCount(String resultString) {
+        WebElement result = this.waitForElementIsPresent(articleDescr, "", 15);
+        Assert.assertTrue("We see unexpected title", result.getText().contains(resultString));
+    }
+
+    public void checkEmptySavedArticles(String resultString) {
         WebElement result = this.waitForElementIsPresent(articleDescr, "", 15);
         Assert.assertTrue("We see unexpected title", result.getText().contains(resultString));
     }
