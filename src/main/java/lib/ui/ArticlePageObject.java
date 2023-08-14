@@ -39,11 +39,19 @@ abstract public class ArticlePageObject extends MainPageObject {
     }
 
     public void addToSaveList() {
-        this.waitForElementAndClick(saveButton, "Can not find and click on " + saveButton, 10);
-        this.waitForElementAndClick(saveButton, "Can not find and click on " + saveButton, 10);
-        this.waitForElementAndClick(moveToAnotherSavedList, "Can not find and click on " + moveToAnotherSavedList, 10);
-        this.waitForElementAndClick(saved, "Can not find and click on " + saved, 10);
-        this.waitForElementIsPresent(viewListButton, "Can not find View list", 15);
+        if (Platform.getInstance().isAndroid()) {
+            this.waitForElementAndClick(saveButton, "Can not find and click on " + saveButton, 10);
+            this.waitForElementAndClick(saveButton, "Can not find and click on " + saveButton, 10);
+            this.waitForElementAndClick(moveToAnotherSavedList, "Can not find and click on " + moveToAnotherSavedList, 10);
+            this.waitForElementAndClick(saved, "Can not find and click on " + saved, 10);
+            this.waitForElementIsPresent(viewListButton, "Can not find View list", 15);
+        } else if (Platform.getInstance().isIos()) {
+            this.waitForElementAndClick(saved, "Can not find and click on saved", 10);
+        } else {
+            this.removeArticleFromSavedIfItAdded();
+            sleep(2000);
+            this.waitForElementAndClick(saveButton, "Can not find and click on saved", 10);
+        }
     }
 
     public ArticlePageObject swipe() {
@@ -51,23 +59,10 @@ abstract public class ArticlePageObject extends MainPageObject {
         return this;
     }
 
-    public void addArticleToMySaved() {
-        this.waitForElementAndClick(saved, "Can not find and click on saved", 10);
-    }
-
-    public void clickOnSaveButton() {
-        this.removeArticleFromSavedIfItAdded();
-        this.waitForElementAndClick(saveButton, "Can not find and click on saved", 10);
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public void removeArticleFromSavedIfItAdded() {
         if (isElementPresent(removeFromMySaveList)) {
             this.waitForElementAndClick(removeFromMySaveList, "Can not find and click on removeFromMySaveList", 10);
+           // sleep(2000);
             this.waitForElementIsPresent(saveButton, "Can not find save button", 10);
         }
     }

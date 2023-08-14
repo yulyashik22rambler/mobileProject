@@ -24,7 +24,7 @@ abstract public class SavedListPageObject extends MainPageObject {
             this.waitForElementIsPresent(getResultSearchElement(articleTitle), "Cannot find by article title", 10);
             this.swipeElementToLeft(getResultSearchElement(articleTitle), "Cannot find by article title");
         } else {
-            this.tryClickElementWithFewAttempts(getResultSearchElement(articleTitle), "Cannot find by article title", 10);
+            this.waitForElementAndClick(getResultSearchElement(articleTitle), "Cannot find by article title", 10);
         }
         if (Platform.getInstance().isIos()) {
             this.clickElementToTheRightUpperCorner(getResultSearchElement(articleTitle), "Cannot find by article title");

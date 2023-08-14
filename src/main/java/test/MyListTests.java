@@ -7,13 +7,11 @@ import lib.ui.factories.*;
 import org.junit.Test;
 
 public class MyListTests extends CoreTestCase {
-
-    String email = "//sacod90384@royalka.com";
-    String login = "Koshka-Zaya";
-    String password = "xzhBRNM8XUQy5m3";
-
     @Test
     public void testSaveFirstArticleToListTest() {
+        String email = "sacod90384@royalka.com";
+        String login = "Koshka-Zaya";
+        String password = "xzhBRNM8XUQy5m3";
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.clickSkipButton()
                 .initSearchInput()
@@ -23,20 +21,18 @@ public class MyListTests extends CoreTestCase {
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
         String articleTitle = articlePageObject.getArticleTitle("Java");
         assertEquals("We see unexpected title", "Java (programming language)", articleTitle);
-        if (Platform.getInstance().isAndroid()) {
-            articlePageObject.addToSaveList();
-        } else if (Platform.getInstance().isIos()) {
-            articlePageObject.addArticleToMySaved();
-        } else {
-            articlePageObject.clickOnSaveButton();
+
+        articlePageObject.addToSaveList();
+        if (Platform.getInstance().isMw()) {
             AuthorisationPageObject authorisationPageObject = AuthWikiPageObjectFactory.get(driver);
             authorisationPageObject
                     .clickAuthButton()
                     .enterLoginData(login, password)
                     .submitButton();
             articlePageObject.getArticleTitle("Java");
-            assertEquals("We see unexpected title", "Java (programming language)", articleTitle);
+            assertEquals("We see unexpected title", "Java (programming language)", articlePageObject.getArticleTitle("Java"));
         }
+        //Remove from list
         NavigationUi navigationUi = NavigationUiFactory.get(driver);
         navigationUi.openNavigation();
         navigationUi.clickMyList();

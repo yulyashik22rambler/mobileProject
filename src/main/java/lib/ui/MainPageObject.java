@@ -240,26 +240,25 @@ public class MainPageObject {
         List<WebElement> elements = driver.findElements(by);
         return elements.size();
     }
-    public void sleep() {
+    public void sleep(int ms) {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(ms);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void tryClickElementWithFewAttempts(String locator,String errorMessage,int msxAttempt){
-        int currentAttempt =0;
-        boolean isNeedMoreAttempt=true;
-        while (isNeedMoreAttempt){
+    public void tryClickElementWithFewAttempts(String locator,String errorMessage,int msxAttempt) {
+        int currentAttempt = 0;
+        boolean isNeedMoreAttempt = true;
+        while (isNeedMoreAttempt) {
             try {
-                this.waitForElementAndClick(locator,errorMessage,10);
-                isNeedMoreAttempt=false;
-            }catch (Exception exception){
+                this.waitForElementAndClick(locator, errorMessage, 10);
+                isNeedMoreAttempt = false;
+            } catch (Exception exception) {
                 System.out.println("Attempt number " + currentAttempt);
-                if (currentAttempt>currentAttempt)
-                {
-                    this.waitForElementAndClick(locator,errorMessage,10);
+                if (currentAttempt > currentAttempt) {
+                    this.waitForElementAndClick(locator, errorMessage, 10);
                 }
             }
             ++currentAttempt;

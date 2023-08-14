@@ -1,9 +1,11 @@
 package lib.ui;
 
+import lib.Platform;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class SearchPageObject extends MainPageObject {
-    protected static String skipOrLoopButton, searchFirstInput, searchInput, searchResultBySubstringTpl, backButton, searchResult, searchResultByTitleDescrTmpl;
+    protected static String skipOrLoopButton, searchFirstInput,searchFirstInput1, searchInput, searchInput1,
+            searchResultBySubstringTpl, backButton, searchResult, searchResultByTitleDescrTmpl;
 
     public SearchPageObject(RemoteWebDriver driver) {
         super(driver);
@@ -35,10 +37,30 @@ public class SearchPageObject extends MainPageObject {
         return this;
     }
 
+    public SearchPageObject initSearchInputMb() {
+        if (Platform.getInstance().isMw()) {
+            this.waitForElementIsPresent(searchFirstInput1, "Can not find element search init", 10);
+            this.waitForElementAndClick(searchFirstInput1, "Can not find element search init", 10);
+        } else {
+            this.waitForElementIsPresent(searchFirstInput, "Can not find element search init", 10);
+            this.waitForElementAndClick(searchFirstInput, "Can not find element search init", 10);
+        }
+        return this;
+    }
+
     public SearchPageObject typeSearchLineAndSendKey(String searchText) {
         this.waitForElementAndSendKey(searchFirstInput, searchText, "Can not find element search init", 10);
         return this;
     }
+    public SearchPageObject typeSearchLineAndSendKeyMb(String searchText) {
+        if (Platform.getInstance().isMw()) {
+            this.waitForElementAndSendKey(searchInput1, searchText, "Can not find element search init", 10);
+        } else {
+            this.waitForElementAndSendKey(searchFirstInput, searchText, "Can not find element search init", 10);
+        }
+        return this;
+    }
+
 
     public SearchPageObject waitForSearchResult(String subString) {
         this.waitForElementIsPresent(getResultSearchElement(subString), "Can not find search result elements", 15);

@@ -5,7 +5,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class AndroidNavigationUi extends NavigationUi {
     static {
-        viewList = "xpath://*[contains(@text,'View list')]";
+        viewWatchList = "xpath://*[contains(@text,'View list')]";
     }
 
     public AndroidNavigationUi(RemoteWebDriver driver) {
