@@ -2,6 +2,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+*/.allure/
+/allure-report/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
@@ -11,7 +13,7 @@ target/
 *.iws
 *.iml
 *.ipr
-
+.jar
 ### Eclipse ###
 .apt_generated
 .classpath
@@ -20,7 +22,7 @@ target/
 .settings
 .springBeans
 .sts4-cache
-
+/.allure/
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/

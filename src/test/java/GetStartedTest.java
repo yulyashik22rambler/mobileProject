@@ -1,12 +1,14 @@
-package test.IOS;
-
-import lib.CoreTestCase;
-import lib.Platform;
-import lib.ui.WelcomePageObject;
+import io.qameta.allure.Description;
+import io.qameta.allure.junit4.DisplayName;
+import ui.CoreTestCase;
+import ui.Platform;
+import ui.WelcomePageObject;
 import org.junit.Test;
 
 public class GetStartedTest extends CoreTestCase {
     @Test
+    @DisplayName("IOS test")
+    @Description("IOS test")
     public void testPassThroughWelcome() {
         if (Platform.getInstance().isAndroid()||Platform.getInstance().isMw()) {
             return;
