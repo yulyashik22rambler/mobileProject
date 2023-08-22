@@ -1,12 +1,16 @@
 import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Features;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Assert;
 import org.junit.Test;
 import ui.*;
 import ui.factories.*;
+@Feature("MyListTests")
 
 public class MyListTests extends CoreTestCase {
     @Test
+    @Feature("save")
     @DisplayName("testSaveFirstArticleToListTest")
     @Description("Remove first article")
     public void testSaveFirstArticleToListTest() {

@@ -1,17 +1,21 @@
-import io.qameta.allure.Description;
+import io.qameta.allure.*;
 import io.qameta.allure.junit4.DisplayName;
-import ui.CoreTestCase;
+import org.junit.Assert;
+import org.junit.Test;
 import ui.ArticlePageObject;
+import ui.CoreTestCase;
 import ui.SearchPageObject;
 import ui.factories.ArticlePageObjectFactory;
 import ui.factories.SearchPageObjectFactory;
-import org.junit.Assert;
-import org.junit.Test;
 
+@Epic("Tests for article")
+@Feature("article")
 public class ArticleTests extends CoreTestCase {
     @Test
     @DisplayName("Compare article title with expected one")
     @Description("Click by description 'Object-oriented programming language' and go read")
+    @Feature("article")
+    @Severity(value = SeverityLevel.CRITICAL)
     public void testCompareArticleTitleTest() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
@@ -27,6 +31,8 @@ public class ArticleTests extends CoreTestCase {
     @Test
     @DisplayName("Swipe article down")
     @Description("Search Java article and swipe down")
+    @Feature("search")
+    @Severity(value = SeverityLevel.NORMAL)
     public void testSwipeJavaArticleTest() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.clickSkipButton()
@@ -46,6 +52,8 @@ public class ArticleTests extends CoreTestCase {
     @Test
     @DisplayName("Swipe article to the footer")
     @Description("Search Java article and swipe till footer of the site")
+    @Feature("search")
+    @Severity(value = SeverityLevel.MINOR)
     public void testSwipeTillFooterTest() {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.clickSkipButton()

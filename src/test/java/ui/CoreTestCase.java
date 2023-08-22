@@ -8,7 +8,10 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.Duration;
+import java.util.Properties;
 
 public class CoreTestCase {
 
@@ -19,6 +22,7 @@ public class CoreTestCase {
     @Step("Start session and begin driver")
     public void setUp() throws Exception {
         driver = Platform.getInstance().getDriver();
+        this.createAllurePropertyFile();
         rotatePortray();
         this.openWikiWebPageForMobileWeb();
     }
@@ -56,6 +60,7 @@ public class CoreTestCase {
             System.out.println("Method rotatePortray does nothing for platform " + Platform.getInstance().getPlatformVar());
         }
     }
+
     @Step("Switch into background mode")
     public void switchBackGroundMode(int timeInSeconds) {
         if (driver instanceof AppiumDriver) {
@@ -65,6 +70,7 @@ public class CoreTestCase {
             System.out.println("Method rotatePortray does nothing for platform " + Platform.getInstance().getPlatformVar());
         }
     }
+
     @Step("Open WikiWebPage for mobile web in browser")
     public void openWikiWebPageForMobileWeb() {
         if (Platform.getInstance().isMw()) {
@@ -72,6 +78,18 @@ public class CoreTestCase {
             driver.manage().window().setSize(new Dimension(340, 640));
         } else {
             System.out.println("Method 'openWikiWebPageForMobileWeb' does nothing for platform " + Platform.getInstance().getPlatformVar());
+        }
+    }
+
+    private void createAllurePropertyFile() {
+        String path = System.getProperty("allure.result.directory");
+        try {
+            Properties properties = new Properties();
+            FileOutputStream fos = new FileOutputStream(path + "/environment.properties");
+            properties.setProperty("Environment", Platform.getInstance().getPlatformVar());
+            properties.store(fos, "See allure framework");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
     }
 

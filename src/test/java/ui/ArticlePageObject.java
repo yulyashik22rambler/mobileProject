@@ -19,6 +19,7 @@ abstract public class ArticlePageObject extends MainPageObject {
 
     public String getArticleTitle(String title) {
         WebElement titleElement = this.waitForElementIsPresent(getElementXpath(title), "Can not find title", 60);
+        screenshot(this.takeScreenshot("article_compare"));
         if (Platform.getInstance().isAndroid() || Platform.getInstance().isMw()) {
             return titleElement.getText();
         } else {

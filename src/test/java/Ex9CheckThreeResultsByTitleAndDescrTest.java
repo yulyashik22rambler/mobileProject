@@ -1,11 +1,14 @@
 import io.qameta.allure.Feature;
+import io.qameta.allure.Features;
 import io.qameta.allure.junit4.DisplayName;
+import org.junit.Test;
 import ui.CoreTestCase;
 import ui.SearchPageObject;
 import ui.factories.SearchPageObjectFactory;
-import org.junit.Test;
 
-@Feature("Ex9CheckThreeResultsByTitleAndDescrTest")
+@Features
+        (value = {@Feature("search"),
+                @Feature("CheckThreeResultsByTitleAndDescrTest")})
 public class Ex9CheckThreeResultsByTitleAndDescrTest extends CoreTestCase {
     @Test
     @DisplayName("testSearchAndCheckThreeResultsByTitleDescriptionTest")

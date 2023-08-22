@@ -1,3 +1,4 @@
+import io.qameta.allure.Feature;
 import org.junit.Assert;
 import org.junit.Test;
 import ui.*;
@@ -5,6 +6,7 @@ import ui.factories.*;
 
 public class Ex5DeleteSavedSecondArticleTest extends CoreTestCase {
     @Test
+    @Feature("save")
     public void testDeleteSavedSecondArticleTest() {
         String login = "Koshka-Zaya";
         String password = "xzhBRNM8XUQy5m3";

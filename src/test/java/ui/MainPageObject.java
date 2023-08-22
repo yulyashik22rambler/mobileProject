@@ -4,15 +4,17 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
+import io.qameta.allure.Attachment;
+import org.aspectj.util.FileUtil;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -22,6 +24,17 @@ public class MainPageObject {
 
     public MainPageObject(RemoteWebDriver driver) {
         this.driver = driver;
+    }
+
+    @Attachment
+    public static byte[] screenshot(String path) {
+        byte[] bytes = new byte[0];
+        try {
+            bytes = Files.readAllBytes(Paths.get(path));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return bytes;
     }
 
     public WebElement waitForElementIsPresent(String locator, String errorMessage, long timeInSeconds) {
@@ -244,6 +257,7 @@ public class MainPageObject {
         List<WebElement> elements = driver.findElements(by);
         return elements.size();
     }
+
     public void sleep(int ms) {
         try {
             Thread.sleep(ms);
@@ -252,7 +266,7 @@ public class MainPageObject {
         }
     }
 
-    public void tryClickElementWithFewAttempts(String locator,String errorMessage,int msxAttempt) {
+    public void tryClickElementWithFewAttempts(String locator, String errorMessage, int msxAttempt) {
         int currentAttempt = 0;
         boolean isNeedMoreAttempt = true;
         while (isNeedMoreAttempt) {
@@ -268,6 +282,18 @@ public class MainPageObject {
             ++currentAttempt;
 
         }
+    }
+
+    public String takeScreenshot(String name) {
+        TakesScreenshot ts = (TakesScreenshot) this.driver;
+        File source = ts.getScreenshotAs(OutputType.FILE);
+        String path = System.getProperty("user.dir") + "/screenshots/" + name + "_screenshot.png";
+        try {
+            FileUtil.copyFile(source, new File(path));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return path;
     }
 }
 
