@@ -4,7 +4,11 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        WelcomePageObject.ArticleTests.class, ChangeAppConditionTests.class, MyListTests.class, SearchTest.class
+        ArticleTests.class,
+        ChangeAppConditionTests.class,
+        MyListTests.class,
+        SearchTest.class,
+        Ex5DeleteSavedSecondArticleTest.class
 })
 public class TestSuite {
 }
